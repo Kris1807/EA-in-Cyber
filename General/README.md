@@ -1,17 +1,18 @@
-This repository is used and written by:
+## This repository is used and written by:
 
 - Kristian Pitshugin
 - Tyler Corse
 - Varshini Bonagiri
 - Jess Hill
   For CSCI4560/6560 research project assignment.
-  **This project and repo will later become Kristian's MS Thesis.**
 
-Our research question is:
+  **This project and repo will later become Kristian's MS Thesis, with respect and credit to given to the teammates.**
+
+## Our research question is:
 
 "Can coevolutionary algorithms generate realistic adversarial behaviors and adaptive defense mechanisms that improve overall cyber resilience?"
 
-Abstract:
+## Abstract:
 
 Cybersecurity is a constant arms race between attackers developing new malware and defenders building detection mechanisms to stop them. Traditional malware detection systems often struggle to stay effective against evolving threats. In this project, we explore how coevolutionary algorithms can be used to simulate and improve this dynamic interaction.
 Instead of using real malicious code, we use a publicly available static malware dataset such as EMBER, which contains feature representations of malware and benign files. In our framework, two populations evolve together: an attacker population that mutates malware feature vectors to evade detection, and a defender population that learns to identify and block these evolving threats.

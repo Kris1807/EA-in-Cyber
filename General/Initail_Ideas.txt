@@ -1,4 +1,4 @@
-Representation:
+## Representation:
 
 - Attacker:
 A vector of many dimensions (Provided by EMBER)
@@ -6,7 +6,7 @@ Stored as a dense numpy float array.
 - Defender:
 Chunk of hyperparams which are the training choices
 
-Mutation:
+## Mutation:
 
 - Attacker:
 Gaussian
@@ -16,7 +16,7 @@ Add noise to a parameter
 Small changes
 Repair
 
-Recombination:
+## Recombination:
 
 - Could use all for both:
 uniform 
@@ -24,7 +24,7 @@ Arithmetic
 Crossover
 
 
-Fitness:
+## Fitness:
 
 - Attacker:
 maximize evasion against evaluation defenders with a penalty to edit costs
@@ -32,12 +32,12 @@ maximize evasion against evaluation defenders with a penalty to edit costs
 maximize detection accuracy & robustness to HoF attackers, while minimizing false positives/complexity
 
 
-Parents selection:
+## Parents selection:
 
 Tournament/Roulette - could use both also, with 50% for each
 
 
-Survivor selection:
+## Survivor selection:
 
 - Attacker:
 (μ + λ) where λ is about 5-7 times μ 
@@ -50,7 +50,7 @@ And in my opinion we should have a list of the top some results.
 
 
 
-Initialization:
+## Initialization:
 
 - Attacker:
 Some population randomly selected from EMBER
@@ -58,7 +58,7 @@ Some population randomly selected from EMBER
 Create a ML baseline trained defenders population, and then start evolving them.
 
 
-Termination:
+## Termination:
 
 We limit gens
 We stop when the fitness improvement converges

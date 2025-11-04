@@ -1,0 +1,5 @@
+## Idea of the "Main_methods" directory:
+
+This directory is to store the files that run the main function(s),
+there might be more than one since we might construct different with different
+operations or use DEAP for some.
