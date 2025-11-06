@@ -6,3 +6,17 @@ def select_binary(pop, fits):
 #example:
 # p1 = select_binary(pop, fits)
 # p2 = select_binary(pop, fits)
+
+# GA building blocks
+def tournament_select(fitness: np.ndarray, k: int, rng: np.random.Generator) -> int:
+    idxs = rng.integers(0, fitness.size, size=k)
+    best = idxs[0]
+    best_fit = fitness[best]
+    for i in idxs[1:]:
+        if fitness[i] < best_fit:
+            best, best_fit = i, fitness[i]
+    return best
+
+#example
+# p1_idx = tournament_select(fitness, tournament_k, rng)
+# p2_idx = tournament_select(fitness, tournament_k, rng)
