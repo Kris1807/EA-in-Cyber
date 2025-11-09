@@ -18,3 +18,7 @@ General/Example/data/
 # ignore full EMBER repo
 EMBER2024/
 
+# Python virtualenv
+.venv/
+venv/
+
