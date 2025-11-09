@@ -1,16 +1,16 @@
-# Python virtualenv
-.venv/
-venv/
-
 # Python junk
 __pycache__/
 *.pyc
 
-# Ignore the EMBER2024 package and local environment
-EMBER2024/
-EMBER2024/.venv/
-EMBER2024/__pycache__/
-*.pyc
-
-# macOS metadata
+# macOS junk
 .DS_Store
+
+# EMBER2024: ignore env / build artifacts, but keep source
+EMBER2024/.venv/
+EMBER2024/**/__pycache__/
+EMBER2024/build/
+EMBER2024/dist/
+EMBER2024/*.egg-info/
+
+# Data artifacts from the example
+General/Example/data/
