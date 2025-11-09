@@ -1,10 +1,14 @@
-https://github.com/FutureComputing4AI/EMBER2024/blob/main/README.md 
+https://github.com/FutureComputing4AI/EMBER2024/blob/main/README.md
 
-First, you have to clone the EMBER Repo: 
+First, you have to clone the EMBER Repo:
 git clone https://github.com/FutureComputing4AI/EMBER2024.git
 cd EMBER2024/
 pip install .
 
 Then, run my 'run.py' file.
+
+# For me it required:
+
+python -m pip install thrember
 
 Finally, run the 'train_and_test' file

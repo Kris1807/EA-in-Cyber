@@ -1,3 +1,6 @@
 ## File to list needed installations
 ## Each member who finds it useful to download something will
 ## add his downlaoding command so we all have and able to run each others code.
+
+python -m pip install thrember
+python -m pip install numpy
