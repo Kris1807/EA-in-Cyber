@@ -14,3 +14,7 @@ EMBER2024/*.egg-info/
 
 # Data artifacts from the example
 General/Example/data/
+
+# ignore full EMBER repo
+EMBER2024/
+
