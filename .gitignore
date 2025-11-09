@@ -6,5 +6,11 @@ venv/
 __pycache__/
 *.pyc
 
-# macOS junk
+# Ignore the EMBER2024 package and local environment
+EMBER2024/
+EMBER2024/.venv/
+EMBER2024/__pycache__/
+*.pyc
+
+# macOS metadata
 .DS_Store
