@@ -1,0 +1,10 @@
+# Python virtualenv
+.venv/
+venv/
+
+# Python junk
+__pycache__/
+*.pyc
+
+# macOS junk
+.DS_Store
