@@ -8,6 +8,10 @@ DATA_DIR = BASE / "data"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 def download(file_type="Dot_Net", split="train"):
+    data_dir = Path("data") / f"{file_type}_{split}"
+    if any(data_dir.glob("*.jsonl")):
+        print(f"✓ {split} already downloaded, skipping...")
+        return
     print(f"Downloading {file_type} {split}...")
     thrember.download_dataset(str(DATA_DIR), file_type=file_type, split=split)
     print("✓ Done")
@@ -20,6 +24,8 @@ def load_data(subset="train"):
 
 def vectorize():
     print("Vectorizing...")
+    import thrember.model as model
+    model.SUBSETS = ["train", "test"]  # ensure no challenge expected
     thrember.create_vectorized_features(str(DATA_DIR))
     print("✓ Done")
 
