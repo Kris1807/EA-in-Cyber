@@ -1,0 +1,17 @@
+
+#previous steps
+source .venv/bin/activate
+python run.py                # ensure EMBER features exist
+python train_and_test.py     # base linee if needed
+
+# initialize n defenders
+cd ../../Initialization
+python init_random_defenders.py
+
+#train the random defenders
+cd ../Training 
+python train_random_defenders.py
+
+#evolve the attackers based on the random defenders
+cd ../Main_methods
+python evolve_attackers_deap.py

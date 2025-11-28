@@ -53,21 +53,25 @@ def load_ember_malware(subset_size=5000):
     return X_malware, np.ones(len(X_malware), dtype=int)
 
 
-def load_defender_model():
+def load_defender_pool():
     """
-    Load a fixed defender model trained earlier, e.g. baseline_lgbm_model.pkl.
+    Load all defender models from models/random_defenders/.
     """
-    model_path = ROOT_DIR / "models" / "baseline_lgbm_model.pkl"
-    if not model_path.exists():
-        raise FileNotFoundError(
-            f"Defender model not found at {model_path}. "
-            "Train it first with train_and_test.py."
-        )
-    print(f"Loading defender model from: {model_path}")
-    clf = joblib.load(model_path)
-    if not isinstance(clf, LGBMClassifier):
-        print("Warning: loaded model is not an LGBMClassifier (but proceeding anyway).")
-    return clf
+    pool_dir = ROOT_DIR / "models" / "random_defenders"
+    if not pool_dir.exists():
+        raise FileNotFoundError(f"Defender pool dir not found: {pool_dir}")
+
+    pkls = sorted(pool_dir.glob("defender_*.pkl"))
+    if not pkls:
+        raise FileNotFoundError(f"No defender_*.pkl found in {pool_dir}")
+
+    print(f"Loading {len(pkls)} defenders from: {pool_dir}")
+    defenders = []
+    for p in pkls:
+        clf = joblib.load(p)
+        defenders.append(clf)
+        print(f"  loaded {p.name}")
+    return defenders
 
 
 # ----------------------------------------------------------------------
@@ -80,12 +84,10 @@ EPS = 0.5                # magnitude of per-feature perturbation
 BATCH_SIZE = 256         # how many malware samples per fitness evaluation
 
 
-def evaluate_attacker(individual, X_malware, defender):
+def evaluate_attacker(individual, X_malware, defenders):
     """
     individual: list of length K with values in [-1, 1].
-    We scale by EPS and add to selected feature indices.
-    Fitness: negative evasion rate (we minimize), i.e. - (fraction of malware
-    classified as benign by the defender).
+    Fitness: negative average evasion rate across all defenders.
     """
     try:
         K = len(individual)
@@ -99,29 +101,24 @@ def evaluate_attacker(individual, X_malware, defender):
             X_batch = X_malware[idx]
 
         X_adv = X_batch.copy()
-
-        # Build perturbation vector for those K features
-        deltas = np.array(individual, dtype=float) * EPS  # scale [-1,1] -> [-EPS, EPS]
-
-        # Apply same perturbation to all samples on those feature indices
+        deltas = np.array(individual, dtype=float) * EPS  # [-EPS, EPS]
         X_adv[:, FEATURE_INDICES] += deltas
-
-        # Clip to non-negative (EMBER features shouldn't go negative)
         X_adv = np.clip(X_adv, 0, None)
 
-        # Defender predictions: probability of malware (class 1)
-        proba_mal = defender.predict_proba(X_adv)[:, 1]
+        evasion_rates = []
+        for clf in defenders:
+            proba_mal = clf.predict_proba(X_adv)[:, 1]
+            benign_pred = (proba_mal < 0.5).astype(int)
+            evasion_rates.append(benign_pred.mean())
 
-        # Evasion = classified as benign (proba < 0.5)
-        benign_pred = (proba_mal < 0.5).astype(int)
-        evasion_rate = benign_pred.mean()
+        # average evasion across defenders
+        avg_evasion = float(np.mean(evasion_rates))
 
-        # We want to MAXIMIZE evasion_rate -> MINIMIZE negative evasion_rate
-        return (-evasion_rate,)
+        # maximize evasion -> minimize negative
+        return (-avg_evasion,)
 
     except Exception as e:
         print(f"Error in attacker eval: {e}")
-        # Very bad fitness if something breaks
         return (1.0,)
 
 
@@ -136,8 +133,8 @@ def main():
         print("Failed to load malware data. Exiting.")
         return
 
-    print("Loading defender model...")
-    defender = load_defender_model()
+    print("Loading defender pool...")
+    defenders = load_defender_pool()
 
     n_features = X_malware.shape[1]
     print(f"Feature dimension: {n_features}")
@@ -161,7 +158,7 @@ def main():
 
     # Fitness: attacker tries to maximize evasion (we minimize its negative)
     toolbox.register("evaluate",
-                     lambda ind: evaluate_attacker(ind, X_malware, defender))
+                     lambda ind: evaluate_attacker(ind, X_malware, defenders))
     toolbox.register("mate", tools.cxBlend, alpha=0.5)
     toolbox.register("mutate", tools.mutGaussian, mu=0.0, sigma=0.3, indpb=0.3)
     toolbox.register("select", tools.selTournament, tournsize=3)
@@ -182,8 +179,8 @@ def main():
     toolbox.decorate("mutate", clip_bounds(-1.0, 1.0))
 
     # ---------------- Run GA ----------------
-    pop_size = 400
-    n_gen = 100
+    pop_size = 100
+    n_gen = 20
 
     print("\nStarting attacker genetic algorithm...")
     pop = toolbox.population(n=pop_size)
