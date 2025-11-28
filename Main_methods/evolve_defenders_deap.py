@@ -17,13 +17,22 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "General" / "Example"))
 import thrember
 
 
-def load_ember_data(data_path="General/Example/data", subset="train", subset_size=5000):
-    
-    #load ember data as before
-    try:
-        X, y = thrember.read_vectorized_features(data_path, subset=subset)
+def load_ember_data(subset="train", subset_size=5000):
+    """
+    Load EMBER2024 features using thrember from the .dat files.
+    Looks in EA-IN-CYBER/General/Example/data/ (the same place run.py uses).
+    """
+    # GA file lives in EA-IN-CYBER/Main_methods/
+    # parent.parent == EA-IN-CYBER root
+    root_dir = Path(__file__).resolve().parent.parent
+    data_dir = root_dir / "General" / "Example" / "data"
 
-        #subset so it's quicker...
+    print(f"Loading EMBER2024 data from: {data_dir} (subset='{subset}')")
+
+    try:
+        X, y = thrember.read_vectorized_features(str(data_dir), subset=subset)
+
+        # subset so it's quicker...
         if len(X) > subset_size:
             indices = np.random.choice(len(X), subset_size, replace=False)
             X = X[indices]
@@ -33,7 +42,6 @@ def load_ember_data(data_path="General/Example/data", subset="train", subset_siz
     except Exception as e:
         print(f"Error loading data: {e}")
         return None, None
-
 
 def evaluate_defender(hyperparams, X_train, y_train, X_test, y_test):
 
@@ -126,9 +134,9 @@ def main():
 
     pop, logbook = algorithms.eaSimple(
         pop, toolbox,
-        cxpb=0.7,  # crossover probability
-        mutpb=0.3,  # mutation probability
-        ngen=10,  # number of generations (this is temporarily smaller to be faster) 
+        cxpb=0.8,  # crossover probability
+        mutpb=0.5,  # mutation probability
+        ngen=100,  # number of generations (this is temporarily smaller to be faster) 
         stats=stats,
         halloffame=hof,
         verbose=True
