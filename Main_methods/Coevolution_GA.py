@@ -11,13 +11,13 @@ import os
 from pathlib import Path
 import sys
 import random
-import joblib
+import joblib # type: ignore
 import numpy as np
 
 # ML
-from lightgbm import LGBMClassifier
-from sklearn.metrics import roc_auc_score
-from sklearn.model_selection import train_test_split
+from lightgbm import LGBMClassifier # type: ignore
+from sklearn.metrics import roc_auc_score # type: ignore
+from sklearn.model_selection import train_test_split # type: ignore
 
 # DEAP
 from deap import base, creator, tools, algorithms
@@ -37,7 +37,7 @@ EVOLVED_DEFENDERS_FILE = RESULTS_DIR / "evolved_defenders.pkl"
 # Bring your thrember into path if present (same pattern as original)
 sys.path.insert(0, str(ROOT_DIR / "General" / "Example"))
 try:
-    import thrember
+    import thrember # type: ignore
 except Exception as e:
     print("Warning: failed to import thrember:", e)
     thrember = None

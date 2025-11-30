@@ -1,5 +1,5 @@
 import warnings
-import joblib
+import joblib # type: ignore
 
 # Only way to get rid of the warnings
 warnings.filterwarnings('ignore', message='X does not have valid feature names')
@@ -7,9 +7,9 @@ warnings.filterwarnings('ignore', message='X does not have valid feature names')
 import numpy as np
 import random
 from deap import base, creator, tools, algorithms
-from lightgbm import LGBMClassifier
-from sklearn.metrics import roc_auc_score
-from sklearn.model_selection import train_test_split
+from lightgbm import LGBMClassifier # type: ignore
+from sklearn.metrics import roc_auc_score  # type: ignore
+from sklearn.model_selection import train_test_split  # type: ignore
 from pathlib import Path
 import sys
 
@@ -30,7 +30,7 @@ ADV_BATCH_SIZE = 256  # batch size for adversarial evaluation
 
 # Make thrember importable
 sys.path.insert(0, str(ROOT_DIR / "General" / "Example"))
-import thrember  # noqa: E402
+import thrember  # noqa: E402 # type: ignore
 
 
 # ----------------------------------------------------------------------

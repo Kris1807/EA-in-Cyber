@@ -8,7 +8,7 @@ import random
 from deap import base, creator, tools, algorithms
 from pathlib import Path
 import sys
-import joblib
+import joblib # type: ignore
 
 # ----------------------------------------------------------------------
 #  PATHS + DATA LOADING
@@ -20,7 +20,7 @@ EVOLVED_ATTACKERS_FILE = RESULTS_DIR / "evolved_attackers.pkl"
 
 # Make sure we can import thrember from General/Example
 sys.path.insert(0, str(ROOT_DIR / "General" / "Example"))
-import thrember  # noqa: E402
+import thrember  # noqa: E402 # type: ignore
 
 
 def load_ember_malware(subset_size=5000):
