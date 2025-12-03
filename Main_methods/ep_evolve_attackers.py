@@ -15,7 +15,7 @@ from lightgbm import LGBMClassifier  # only for type sanity; we don't train defe
 # Paths / globals
 # ----------------------------------------------------------------------
 ROOT_DIR = Path(__file__).resolve().parent.parent  # EA-in-Cyber
-RESULTS_DIR = ROOT_DIR / "results"
+RESULTS_DIR = ROOT_DIR / "results-ep"
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 EVOLVED_ATTACKERS_FILE = RESULTS_DIR / "evolved_attackers.pkl"
