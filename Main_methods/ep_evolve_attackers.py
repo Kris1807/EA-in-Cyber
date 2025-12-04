@@ -5,11 +5,11 @@ warnings.filterwarnings('ignore', message='X does not have valid feature names')
 import random
 from pathlib import Path
 import sys
-import joblib
+import joblib # type: ignore
 
 import numpy as np
 from deap import base, creator, tools
-from lightgbm import LGBMClassifier  # only for type sanity; we don't train defenders here
+from lightgbm import LGBMClassifier  # only for type sanity; we don't train defenders here # type: ignore
 
 # ----------------------------------------------------------------------
 # Paths / globals

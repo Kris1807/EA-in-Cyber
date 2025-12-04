@@ -5,13 +5,13 @@ warnings.filterwarnings('ignore', message='X does not have valid feature names')
 import random
 from pathlib import Path
 import sys
-import joblib
+import joblib # type: ignore
 
 import numpy as np
 from deap import base, creator, tools
-from lightgbm import LGBMClassifier
-from sklearn.metrics import roc_auc_score
-from sklearn.model_selection import train_test_split
+from lightgbm import LGBMClassifier # type: ignore
+from sklearn.metrics import roc_auc_score # type: ignore
+from sklearn.model_selection import train_test_split # type: ignore
 
 # ----------------------------------------------------------------------
 # Paths / globals
